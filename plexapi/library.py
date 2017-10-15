@@ -581,6 +581,29 @@ class ShowSection(LibrarySection):
                        'guid', 'duplicate', 'label')
     ALLOWED_SORT = ('addedAt', 'lastViewedAt', 'originallyAvailableAt', 'titleSort',
                     'rating', 'unwatched')
+
+    # just to get started
+    # episode.viewCount # ne,lt,gt
+    # show.viewCount se above.
+    # episode.userRating # nt, lt, gt # int 2-10
+    # time bethods like # show.addedat follows the same logic as below
+    # # show.addedAt, lastviewAt
+    # episode.lastViewedAt # time in epoch.
+    # episode.lastViewedAt<<=1451602800 before
+    # episode.lastViewedAt>>=-100000s in the last sek
+    # episode.lastViewedAt>>=-100000s not in last (s,m,h,w,mon, y)
+    # episode.title see below.
+    # show.title=100 contains
+    # show.title!=100 does not contain
+    # show.title%3D=100 is (==)
+    # show.title!%3D=100 is not (!==)
+    # show.title<=100 beginswith
+    # show.title>=100 ends with
+    # show.actor=int this is actors id.
+    # show.actor!=int
+
+    new_filters = ()
+
     TAG = 'Directory'
     TYPE = 'show'
 
