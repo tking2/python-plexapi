@@ -582,66 +582,97 @@ class ShowSection(LibrarySection):
     ALLOWED_SORT = ('addedAt', 'lastViewedAt', 'originallyAvailableAt', 'titleSort',
                     'rating', 'unwatched')
 
-    # just to get started
-    # episode.viewCount # ne,lt,gt
-    # show.viewCount se above.
-    # episode.userRating # nt, lt, gt # int 2-10
-    # time bethods like # show.addedat follows the same logic as below
-    # # show.addedAt, lastviewAt, episode.originallyAvailableAt
-    # episode.lastViewedAt # time in epoch.
-    # episode.lastViewedAt<<=1451602800 before
-    # episode.lastViewedAt>>=-100000s in the last sek
-    # episode.lastViewedAt>>=-100000s not in last (s,m,h,w,mon, y)
-    # episode.title see below.
-    # show.title=100 contains
-    # show.title!=100 does not contain
-    # show.title%3D=100 is (==)
-    # show.title!%3D=100 is not (!==)
-    # show.title<=100 beginswith
-    # show.title>=100 ends with
-    # show.actor=int this is actors id.
-    # show.actor!=int
-    # Lets see if we can follow the same logic
-    # Ah this was so painfull..
+
     # should we just parse this with includeDetails=1&includeAdvanced=1
-    op_filter = {# eps
-                 'episode.lastViewedAt': 'episode.lastViewedAt',
-                 'episode.lastViewedAt_gt': 'episode.lastViewedAt>>',
-                 'episode.lastViewedAt_lt': 'episode.lastViewedAt<<',
 
-                 'episode.originallyAvailableAt': 'episode.originallyAvailableAt',
-                 'episode.originallyAvailableAt_gt': 'episode.originallyAvailableAt>>',
-                 'episode.originallyAvailableAt_lt': 'episode.originallyAvailableAt<<',
+    op_filter = {'show.title_in': 'show.title', 'show.title_nin': 'show.title!',
+                 'show.title': 'show.title=', 'show.title_ne': 'show.title!=',
+                 'show.title_startswith': 'show.title<', 'show.title_endswith': 'show.title>',
+                 'show.studio_in': 'show.studio', 'show.studio_nin': 'show.studio!',
+                 'show.studio': 'show.studio=', 'show.studio_ne': 'show.studio!=',
+                 'show.studio_startswith': 'show.studio<', 'show.studio_endswith': 'show.studio>',
+                 'show.userRating': 'show.userRating', 'show.userRating_ne': 'show.userRating!',
+                 'show.userRating_ge': 'show.userRating>>', 'show.userRating_le': 'show.userRating<<',
+                 'show.contentRating_in': 'show.contentRating', 'show.contentRating_nin': 'show.contentRating!',
+                 'show.contentRating': 'show.contentRating=', 'show.contentRating_ne': 'show.contentRating!=',
+                 'show.contentRating_startswith': 'show.contentRating<', 'show.contentRating_endswith': 'show.contentRating>',
+                 'show.year': 'show.year', 'show.year_ne': 'show.year!', 'show.year_ge': 'show.year>>',
+                 'show.year_le': 'show.year<<', 'show.viewCount': 'show.viewCount',
+                 'show.viewCount_ne': 'show.viewCount!', 'show.viewCount_ge': 'show.viewCount>>',
+                 'show.viewCount_le': 'show.viewCount<<', 'show.lastViewedAt': 'show.lastViewedAt',
+                 'show.lastViewedAt_ne': 'show.lastViewedAt!', 'show.lastViewedAt_lt': 'show.lastViewedAt<<',
+                 'show.lastViewedAt_gt': 'show.lastViewedAt>>', 'show.genre': 'show.genre',
+                 'show.genre_ne': 'show.genre!', 'show.collection': 'show.collection', 'show.collection_ne': 'show.collection!',
+                 'show.director': 'show.director', 'show.director_ne': 'show.director!', 'show.writer': 'show.writer',
+                 'show.writer_ne': 'show.writer!', 'show.producer': 'show.producer', 'show.producer_ne': 'show.producer!',
+                 'show.actor': 'show.actor', 'show.actor_ne': 'show.actor!', 'show.addedAt': 'show.addedAt',
+                 'show.addedAt_ne': 'show.addedAt!', 'show.addedAt_lt': 'show.addedAt<<', 'show.addedAt_gt': 'show.addedAt>>',
+                 'episode.title_in': 'episode.title', 'episode.title_nin': 'episode.title!', 'episode.title': 'episode.title=',
+                 'episode.title_ne': 'episode.title!=', 'episode.title_startswith': 'episode.title<',
+                 'episode.title_endswith': 'episode.title>', 'episode.addedAt': 'episode.addedAt',
+                 'episode.addedAt_ne': 'episode.addedAt!', 'episode.addedAt_lt': 'episode.addedAt<<',
+                 'episode.addedAt_gt': 'episode.addedAt>>', 'episode.originallyAvailableAt': 'episode.originallyAvailableAt',
+                 'episode.originallyAvailableAt_ne': 'episode.originallyAvailableAt!', 'episode.originallyAvailableAt_lt': 'episode.originallyAvailableAt<<',
+                 'episode.originallyAvailableAt_gt': 'episode.originallyAvailableAt>>', 'episode.userRating': 'episode.userRating',
+                 'episode.userRating_ne': 'episode.userRating!', 'episode.userRating_ge': 'episode.userRating>>',
+                 'episode.userRating_le': 'episode.userRating<<', 'episode.viewCount': 'episode.viewCount',
+                 'episode.viewCount_ne': 'episode.viewCount!', 'episode.viewCount_ge': 'episode.viewCount>>',
+                 'episode.viewCount_le': 'episode.viewCount<<', 'episode.lastViewedAt': 'episode.lastViewedAt',
+                 'episode.lastViewedAt_ne': 'episode.lastViewedAt!', 'episode.lastViewedAt_lt': 'episode.lastViewedAt<<',
+                 'episode.lastViewedAt_gt': 'episode.lastViewedAt>>', 'episode.unwatched': 'episode.unwatched',
+                 'episode.unwatched_ne': 'episode.unwatched!', 'episode.resolution': 'episode.resolution',
+                 'episode.mediaSize': 'episode.mediaSize', 'episode.mediaSize_ne': 'episode.mediaSize!',
+                 'episode.mediaSize_ge': 'episode.mediaSize>>', 'episode.mediaSize_le': 'episode.mediaSize<<',
+                 'episode.mediaBitrate': 'episode.mediaBitrate', 'episode.mediaBitrate_ne': 'episode.mediaBitrate!',
+                 'episode.mediaBitrate_ge': 'episode.mediaBitrate>>', 'episode.mediaBitrate_le': 'episode.mediaBitrate<<',
+                 'episode.subtitleLanguage': 'episode.subtitleLanguage', 'episode.subtitleLanguage_ne': 'episode.subtitleLanguage!',
+                 'episode.audioLanguage': 'episode.audioLanguage', 'episode.audioLanguage_ne': 'episode.audioLanguage!'}
 
-                 'episode.addedAt': 'episode.addedAt',
-                 'episode.addedAt_gt': 'episode.addedAt>>',
-                 'episode.addedAt_lt': 'episode.addedAt<<',
-
-                 'show.lastViewedAt': 'show.lastViewedAt',
-                 'show.lastViewedAt_gt': 'show.lastViewedAt>>',
-                 'show.lastViewedAt_lt': 'show.lastViewedAt<<',
-
-                 'show.addedAt': 'show.addedAt',
-                 'show.addedAt_gt': 'show.addedAt>>',
-                 'show.addedAt_lt': 'show.addedAt<<',
-
-                 'show.year': 'show.year',
-                 'show.year_ne': 'show.year!='
-                 'show.year_gt': 'show.year>>',
-                 'show.year_lt': 'show.year<<',
-
-                 'show.actor': 'show.actor',
-                 'show.actor_ne': 'show.actor!='
-
-
-                 }
-
+    ALLOWED_FILTERS = ['unwatched', 'year', 'genre', 'contentRating', 'network', 'collection',
+                       'guid', 'duplicate', 'label'] + list(op_filter.keys())
     # episode.resultion=1080, check call to resolution?type=4
 
     new_filters = ()
 
     TAG = 'Directory'
     TYPE = 'show'
+
+    def search(self, title=None, sort=None, maxresults=999999, libtype=None, **kwargs):
+        cl = {}
+        kw = kwargs.copy()
+        for key, value in kw.items():
+            if key in self.op_filter:
+                cl[self.op_filter[key]] = value
+                del kwargs[key]
+
+
+        args = {}
+        for category, value in kwargs.items():
+            args[category] = self._cleanSearchFilter(category, value, libtype)
+        if title is not None:
+            args['title'] = title
+        if sort is not None:
+            args['sort'] = self._cleanSearchSort(sort)
+        if libtype is not None:
+            args['type'] = utils.searchType(libtype)
+        # iterate over the results
+        results, subresults = [], '_init'
+        args['X-Plex-Container-Start'] = 0
+        args['X-Plex-Container-Size'] = min(X_PLEX_CONTAINER_SIZE, maxresults)
+        arg = args.copy()
+        arg.update(cl)
+        while subresults and maxresults > len(results):
+            #arg = args.copy()
+            #arg.update(cl)
+            key = '/library/sections/%s/all%s' % (self.key, utils.joinArgs(arg))
+            subresults = self.fetchItems(key)
+            results += subresults[:maxresults - len(results)]
+            arg['X-Plex-Container-Start'] += args['X-Plex-Container-Size']
+        return results
+
+
+
+
 
     def searchShows(self, **kwargs):
         """ Search for a show. See :func:`~plexapi.library.LibrarySection.search()` for usage. """
