@@ -587,7 +587,7 @@ class ShowSection(LibrarySection):
     # show.viewCount se above.
     # episode.userRating # nt, lt, gt # int 2-10
     # time bethods like # show.addedat follows the same logic as below
-    # # show.addedAt, lastviewAt
+    # # show.addedAt, lastviewAt, episode.originallyAvailableAt
     # episode.lastViewedAt # time in epoch.
     # episode.lastViewedAt<<=1451602800 before
     # episode.lastViewedAt>>=-100000s in the last sek
@@ -601,6 +601,42 @@ class ShowSection(LibrarySection):
     # show.title>=100 ends with
     # show.actor=int this is actors id.
     # show.actor!=int
+    # Lets see if we can follow the same logic
+    # Ah this was so painfull..
+    # should we just parse this with includeDetails=1&includeAdvanced=1
+    op_filter = {# eps
+                 'episode.lastViewedAt': 'episode.lastViewedAt',
+                 'episode.lastViewedAt_gt': 'episode.lastViewedAt>>',
+                 'episode.lastViewedAt_lt': 'episode.lastViewedAt<<',
+
+                 'episode.originallyAvailableAt': 'episode.originallyAvailableAt',
+                 'episode.originallyAvailableAt_gt': 'episode.originallyAvailableAt>>',
+                 'episode.originallyAvailableAt_lt': 'episode.originallyAvailableAt<<',
+
+                 'episode.addedAt': 'episode.addedAt',
+                 'episode.addedAt_gt': 'episode.addedAt>>',
+                 'episode.addedAt_lt': 'episode.addedAt<<',
+
+                 'show.lastViewedAt': 'show.lastViewedAt',
+                 'show.lastViewedAt_gt': 'show.lastViewedAt>>',
+                 'show.lastViewedAt_lt': 'show.lastViewedAt<<',
+
+                 'show.addedAt': 'show.addedAt',
+                 'show.addedAt_gt': 'show.addedAt>>',
+                 'show.addedAt_lt': 'show.addedAt<<',
+
+                 'show.year': 'show.year',
+                 'show.year_ne': 'show.year!='
+                 'show.year_gt': 'show.year>>',
+                 'show.year_lt': 'show.year<<',
+
+                 'show.actor': 'show.actor',
+                 'show.actor_ne': 'show.actor!='
+
+
+                 }
+
+    # episode.resultion=1080, check call to resolution?type=4
 
     new_filters = ()
 
