@@ -440,6 +440,11 @@ class PlexServer(PlexObject):
         self.refreshSynclist()
         self.refreshContent()
 
+    def getEpisode(self, ratingKey):
+        """ Return an Episode object via a ratingKey """
+        key = '/library/metadata/%s' % ratingKey
+        return self.fetchItem(key)
+
 
 class Account(PlexObject):
     """ Contains the locally cached MyPlex account information. The properties provided don't

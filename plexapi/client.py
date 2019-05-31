@@ -9,7 +9,7 @@ from plexapi.base import PlexObject
 from plexapi.compat import ElementTree
 from plexapi.exceptions import BadRequest, Unsupported
 from plexapi.playqueue import PlayQueue
-
+import pychromecast
 
 DEFAULT_MTYPE = 'video'
 
@@ -335,7 +335,16 @@ class PlexClient(PlexObject):
                 offset (int): Position to seek to (milliseconds).
                 mtype (str): Media type to take action against (music, photo, video).
         """
-        self.sendCommand('playback/seekTo', offset=offset, type=mtype)
+        if self.title == "Chromecast":
+            chromecast = pychromecast.get_chromecasts()[0]
+            chromecast.wait(100)
+            while not chromecast.media_controller.status.media_session_id:
+                time.sleep(0.1)
+                chromecast.wait()
+            mc = chromecast.media_controller
+            mc.seek(offset/1000)
+        else:
+            self.sendCommand('playback/seekTo', offset=offset, type=mtype)
 
     def skipNext(self, mtype=DEFAULT_MTYPE):
         """ Skip to the next playback item.

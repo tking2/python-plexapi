@@ -5,6 +5,7 @@ from plexapi import log, utils
 from plexapi.compat import quote_plus, urlencode
 from plexapi.exceptions import BadRequest, NotFound, UnknownType, Unsupported
 from plexapi.utils import tag_helper
+from xml.etree import ElementTree
 
 OPERATORS = {
     'exact': lambda v, q: v == q,
@@ -570,7 +571,7 @@ class Playable(object):
                                                                                               time, state)
         self._server.query(key)
         self.reload()
-        
+
     def updateTimeline(self, time, state='stopped', duration=None):
         """ Set the timeline progress for this video.
 
